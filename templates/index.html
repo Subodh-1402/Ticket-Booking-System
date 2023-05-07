@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Train Ticket Booking</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400" rel="stylesheet">
+
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('static', filename='css/jquery.toast.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ url_for('static', filename='css/jquery.min.js') }}">
+    </script>
+    <script src="{{ url_for('static', filename='css/jquery.toast.js') }}">
+    </script>
+</head>
+
+<body>
+<div class="section" id="booking">
+    <div class="section-center">
+        <div class="container">
+            <div class="row">
+                <div class="booking-form">
+                    <!--						first form method-->
+                    <form action="store" id="form1" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">First Name</span>
+                                    <input class="form-control" id="fname" name="FirstName" placeholder="First Name..." type="text"
+                                           value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">Last Name</span>
+                                    <input class="form-control" id="lname" name="LastName" placeholder="Last Name..."
+                                           type="text"
+                                           value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">From</span>
+                                    <input class="form-control" id="from1" name="from1" placeholder="FROM" type="text"
+                                           value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">To</span>
+                                    <input class="form-control" id="to1" name="to1" placeholder="TO" type="text"
+                                           value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">Departing</span>
+                                    <input class="form-control" id="date" name="date" placeholder="DATE"
+                                           type="date" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">Seats</span>
+                                    <input class="form-control" id="type1" name="seats" placeholder="Enter No. of Seats" type="text"
+                                           value="">
+                                </div>
+                            </div>
+                            <div class="form-btn" style="display:flex;">
+								{% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div role="alert" style="float:left;height:1px;color:red;border-radius:50%;background-color:pink">
+                                    <span>{{message}}</span>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
+                                <button class="submit-btn">Let's Book</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--			code for show bookings-->
+
+<div class="row" style="margin-left:50px;margin-right:50px;background-color:white">
+    <div class="col md-12">
+        <h2 style="margin-left:20px">
+            Booking Panel</h2>
+
+        <!--						second form method-->
+
+        <form action="fetch" id="form2" method="GET">
+            <button class="button-79" id="sb" type="submit">Show Bookings</button>
+            <!---->
+            <table class="table table-bordered table-striped table-hover text-center" id="dataTbl">
+                <thead>
+                <tr>
+                    <th class="text-center"> Sr.No.</th>
+                    <th class="text-center">First Name</th>
+                    <th class="text-center"> Last Name</th>
+                    <th class="text-center"> From</th>
+                    <th class="text-center"> To</th>
+                    <th class="text-center"> Date</th>
+                    <th class="text-center"> Seats</th>
+                    <th class="text-center"></th>
+                </tr>
+                </thead>
+                {% for row in BookingPanel %}
+
+                <tbody>
+                <td>{{loop.index}}</td>
+                <td>{{row.fname}}</td>
+                <td>{{row.lname}}</td>
+                <td>{{row.from1}}</td>
+                <td>{{row.to1}}</td>
+                <td>{{row.DepartDate}}</td>
+                <td>{{row.seats}}</td>
+                <td name="buttons">
+
+                    <div daclass="btn-group pull-right">
+                        <a class="btn btn-warning btn-xs" data-target="#modaledit{{row.idno}}" data-toggle="modal"
+                           href="/update/{{row.idno}}">Edit</a>
+                        <a class="btn btn-danger btn-xs" href="/delete/{{row.idno}}"
+                           onclick="return confirm('Are you sure to delete?')">Delete</a>
+                    </div>
+                </td>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </form>
+        {% for row in BookingPanel %}
+        <div class="modal modal fade" id="modaledit{{row.idno}}" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class=modal-title">Update Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{url_for('update')}}" method="POST">
+                            <input name="id" type="hidden" value="{{row.idno}}">
+                            <div class="form-group" style="padding-top:20%">
+                                <label>First name</label>
+                                <input class="form-control" name="firstname" type="text" value="{{row.fname}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Last name</label>
+                                <input class="form-control" name="lastname" type="text" value="{{row.lname}}">
+                            </div>
+                            <div class="form-group">
+                                <label>From</label>
+                                <input class="form-control" name="fromdest" type="text" value="{{row.from1}}">
+                            </div>
+                            <div class="form-group">
+                                <label>To</label>
+                                <input class="form-control" name="todest" type="text" value="{{row.to1}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Departure</label>
+                                <input class="form-control" name="departuredate" type="date" value="{{row.DepartDate}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Seats</label>
+                                <input class="form-control" name="seats1" type="text" value="{{row.seats}}">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+</body>
+</html>
