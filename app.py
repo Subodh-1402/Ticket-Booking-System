@@ -53,7 +53,7 @@ def login():
             # flash('uname or pwd wrong')
             return render_template('login.html')
     print('inside login')
-    return render_template('login.html')
+    return render_template('index.html')
 
 
 
