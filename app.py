@@ -34,34 +34,38 @@ class BookTicket(db.Model):
         self.seats = seats
 
 # URL for home page
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    print('inside login1')
-
-    if request.method == 'POST':
-
-        username1=request.form.get('username')
-        pwd1= request.form.get('password')
-
-        print('usename')
-        if username1 =='subodh' and pwd1=='123':
-            print('enter login')
-
-            return redirect(url_for('index'))
-
-        else:
-            # flash('uname or pwd wrong')
-            return render_template('login.html')
-    print('inside login')
+#     print('inside login1')
+#
+#     if request.method == 'POST':
+#
+#         username1=request.form.get('username')
+#         pwd1= request.form.get('password')
+#
+#         print('usename')
+#         if username1 =='subodh' and pwd1=='123':
+#             print('enter login')
+#
+#             return redirect(url_for('login'))
+#
+#         else:
+#             # flash('uname or pwd wrong')
+#             return render_template('login.html')
+#     print('inside login')
     return render_template('index.html')
 
 
 
-@app.route('/index')
+@app.route('/')
 def index():
 
         return render_template('index.html')
 
+# @app.route('/login')
+# def index():
+#
+#         return render_template('login.html')
 
 #  execute store function while click on Let's Book button
 @app.route('/store', methods=['POST'])
